@@ -4,8 +4,33 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
-    <script src="scripts/app.js" defer></script>
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <h1>Share a Place!</h1>
+    </header>
+
+    <section id="selected-place">
+      <div id="map">
+        <p>You haven't selected any place yet. Please enter an address or locate yourself!</p>
+      </div>
+    </section>
+
+    <section id="share-controls">
+      <input
+        id="share-link" type="text" readonly
+        value="Select a place to get a sharable link." />
+      <button id="share-btn" disabled>Share Place</button>
+    </section>
+
+    <section id="place-data">
+      <form>
+        <label for="address">Address</label>
+        <input type="text" />
+        <button type="submit">Find Place</button>
+      </form>
+      <button id="locate-btn">Get Current Location</button>
+    </section>
+  </body>
 </html>

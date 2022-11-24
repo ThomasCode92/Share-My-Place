@@ -10,9 +10,9 @@ const { CleanWebpackPlugin } = CleanPlugin;
 
 module.exports = {
   mode: 'development',
-  entry: './src/scripts/app.js',
+  entry: './src/scripts/main.js',
   output: {
-    filename: 'app.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'eval-cheap-module-source-map',
@@ -46,7 +46,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
-      title: 'Project Board',
+      title: 'Share My Place',
       filename: 'index.html',
       template: './src/index.html',
     }),
