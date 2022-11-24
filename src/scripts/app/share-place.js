@@ -1,4 +1,6 @@
+import Location from '../util/location';
 import '../../styles/share-place.css';
+
 export class PlaceFinder {
   constructor() {
     const addressForm = document.querySelector('form');
@@ -19,12 +21,10 @@ export class PlaceFinder {
 
     navigator.geolocation.getCurrentPosition(
       successResult => {
-        const coordinates = {
-          lat: successResult.coords.latitude,
-          lng: successResult.coords.longitude,
-        };
+        const { latitude, longitude } = successResult.coords;
+        const location = new Location(latitude, longitude);
 
-        console.log(coordinates);
+        console.log(location);
       },
       error => {
         console.log(error);
