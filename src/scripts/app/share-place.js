@@ -10,5 +10,28 @@ export class PlaceFinder {
 
   findAddressHandler() {}
 
-  locateUserHandler() {}
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      return alert(
+        'Location feature is not available in your browser - please use a modern browser or manually enter an address'
+      );
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      successResult => {
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+
+        console.log(coordinates);
+      },
+      error => {
+        console.log(error);
+        alert(
+          'Could not locate you unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
 }
