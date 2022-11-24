@@ -7,6 +7,16 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
+    <template id="modal-template">
+      <div class="backdrop"></div>
+      <div class="modal"></div>
+    </template>
+    <template id="loading-modal-content">
+      <div class="modal__content centered">
+        <div class="lds-dual-ring"></div>
+      </div>
+    </template>
+
     <header>
       <h1>Share a Place!</h1>
     </header>

@@ -1,4 +1,6 @@
 import Location from '../util/location';
+import Modal from '../UI/modal';
+
 import '../../styles/share-place.css';
 
 export class PlaceFinder {
@@ -19,14 +21,24 @@ export class PlaceFinder {
       );
     }
 
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait!'
+    );
+
+    modal.show();
+
     navigator.geolocation.getCurrentPosition(
       successResult => {
+        modal.hide();
+
         const { latitude, longitude } = successResult.coords;
         const location = new Location(latitude, longitude);
 
         console.log(location);
       },
       error => {
+        modal.hide();
         console.log(error);
         alert(
           'Could not locate you unfortunately. Please enter an address manually!'
