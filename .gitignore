@@ -3,3 +3,6 @@
 
 # Output file - Regenerate with 'npm run build'
 /dist
+
+# Environment variables
+.env

@@ -2,11 +2,17 @@
 
 const path = require('path');
 
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
 const CleanPlugin = require('clean-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 
+const { DefinePlugin } = webpack;
 const { CleanWebpackPlugin } = CleanPlugin;
+
+dotenv.config({ path: './.env' });
 
 module.exports = {
   mode: 'development',
@@ -44,6 +50,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+    }),
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       title: 'Share My Place',
