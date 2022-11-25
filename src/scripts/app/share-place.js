@@ -1,5 +1,6 @@
 import Location from '../util/location';
 import Modal from '../UI/modal';
+import Map from '../UI/map';
 
 import '../../styles/share-place.css';
 
@@ -9,7 +10,7 @@ export class PlaceFinder {
     const locateUserBtn = document.getElementById('locate-btn');
 
     addressForm.addEventListener('submit', this.findAddressHandler);
-    locateUserBtn.addEventListener('click', this.locateUserHandler);
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
   }
 
   findAddressHandler() {}
@@ -35,7 +36,7 @@ export class PlaceFinder {
         const { latitude, longitude } = successResult.coords;
         const location = new Location(latitude, longitude);
 
-        console.log(location);
+        this.selectPlace(location);
       },
       error => {
         modal.hide();
@@ -45,5 +46,13 @@ export class PlaceFinder {
         );
       }
     );
+  }
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates);
+    } else {
+      this.map = new Map(coordinates);
+    }
   }
 }
