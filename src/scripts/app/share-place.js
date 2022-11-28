@@ -13,7 +13,22 @@ export class PlaceFinder {
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
   }
 
-  findAddressHandler() {}
+  findAddressHandler(event) {
+    event.preventDefault();
+
+    const address = event.target.querySelector('input').value;
+
+    if (!address || address.trim().length === 0) {
+      return alert('Invalid address entered - please try again');
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait!'
+    );
+
+    modal.show();
+  }
 
   locateUserHandler() {
     if (!navigator.geolocation) {
