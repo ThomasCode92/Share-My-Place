@@ -1,4 +1,4 @@
-import Location from '../util/location';
+import Location, { getCoordsFromAddress } from '../util/location';
 import Modal from '../UI/modal';
 import Map from '../UI/map';
 
@@ -9,11 +9,11 @@ export class PlaceFinder {
     const addressForm = document.querySelector('form');
     const locateUserBtn = document.getElementById('locate-btn');
 
-    addressForm.addEventListener('submit', this.findAddressHandler);
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
   }
 
-  findAddressHandler(event) {
+  async findAddressHandler(event) {
     event.preventDefault();
 
     const address = event.target.querySelector('input').value;
@@ -28,6 +28,15 @@ export class PlaceFinder {
     );
 
     modal.show();
+
+    try {
+      const coordinates = await getCoordsFromAddress(address);
+      this.selectPlace(coordinates);
+    } catch (error) {
+      alert(error.message);
+    }
+
+    modal.hide();
   }
 
   locateUserHandler() {
