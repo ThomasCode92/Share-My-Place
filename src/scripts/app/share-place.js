@@ -1,4 +1,7 @@
-import Location, { getCoordsFromAddress } from '../util/location';
+import Location, {
+  getCoordsFromAddress,
+  getAddressFromCoords,
+} from '../util/location';
 import Modal from '../UI/modal';
 import Map from '../UI/map';
 
@@ -11,6 +14,8 @@ export class PlaceFinder {
 
     addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
+
+    this.shareBtn = document.getElementById('share-btn');
   }
 
   async findAddressHandler(event) {
@@ -31,7 +36,7 @@ export class PlaceFinder {
 
     try {
       const coordinates = await getCoordsFromAddress(address);
-      this.selectPlace(coordinates);
+      this.selectPlace(coordinates, address);
     } catch (error) {
       alert(error.message);
     }
@@ -54,13 +59,13 @@ export class PlaceFinder {
     modal.show();
 
     navigator.geolocation.getCurrentPosition(
-      successResult => {
-        modal.hide();
-
+      async successResult => {
         const { latitude, longitude } = successResult.coords;
         const location = new Location(latitude, longitude);
 
-        this.selectPlace(location);
+        const address = await getAddressFromCoords(location);
+        this.selectPlace(location, address);
+        modal.hide();
       },
       error => {
         modal.hide();
@@ -72,11 +77,20 @@ export class PlaceFinder {
     );
   }
 
-  selectPlace(coordinates) {
+  selectPlace(coordinates, address) {
     if (this.map) {
       this.map.render(coordinates);
     } else {
       this.map = new Map(coordinates);
     }
+
+    this.shareBtn.disabled = false;
+
+    const sharedLinkInputElement = document.getElementById('share-link');
+    sharedLinkInputElement.value = `${
+      location.origin
+    }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lng=${
+      coordinates.lng
+    }`;
   }
 }

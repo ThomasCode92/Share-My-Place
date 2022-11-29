@@ -28,3 +28,23 @@ export async function getCoordsFromAddress(address) {
 
   return coordinates;
 }
+
+export async function getAddressFromCoords(coordinates) {
+  const response = await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates.lat},${coordinates.lng}&key=${GOOGLE_API_KEY}`
+  );
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch address. Please try again!');
+  }
+
+  const responseData = await response.json();
+
+  if (responseData.error_message) {
+    throw new Error(responseData.error_message);
+  }
+
+  const address = responseData.results[0].formatted_address;
+
+  return address;
+}
