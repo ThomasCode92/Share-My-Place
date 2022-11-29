@@ -16,6 +16,7 @@ export class PlaceFinder {
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
 
     this.shareBtn = document.getElementById('share-btn');
+    this.shareBtn.addEventListener('click', this.sharePlaceHandler);
   }
 
   async findAddressHandler(event) {
@@ -75,6 +76,24 @@ export class PlaceFinder {
         );
       }
     );
+  }
+
+  sharePlaceHandler() {
+    const sharedLinkInputElement = document.getElementById('share-link');
+
+    if (!navigator.clipboard) {
+      return sharedLinkInputElement.select();
+    }
+
+    navigator.clipboard
+      .writeText(sharedLinkInputElement.value)
+      .then(() => {
+        alert('Copied into clipboard');
+      })
+      .catch(error => {
+        console.log(error);
+        sharedLinkInputElement.select();
+      });
   }
 
   selectPlace(coordinates, address) {
