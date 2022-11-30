@@ -29,6 +29,7 @@
   "dependencies": {
     "core-js": "^3.26.1",
     "dotenv": "^16.0.3",
-    "google-maps": "^4.3.3"
+    "google-maps": "^4.3.3",
+    "sanitize-html": "^2.7.3"
   }
 }

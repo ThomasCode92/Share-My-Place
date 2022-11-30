@@ -1,3 +1,5 @@
+import sanitize from 'sanitize-html';
+
 import Map from '../UI/map';
 
 import '../../styles/app.css';
@@ -8,7 +10,7 @@ class LoadedPlace {
     new Map(coordinates);
 
     const headerTitleElement = document.querySelector('header h1');
-    headerTitleElement.textContent = address;
+    headerTitleElement.textContent = sanitize(address);
   }
 }
 
