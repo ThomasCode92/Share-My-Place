@@ -16,7 +16,10 @@ dotenv.config({ path: './.env' });
 
 module.exports = {
   mode: 'development',
-  entry: './src/scripts/main.js',
+  entry: {
+    sharePlace: './src/scripts/app/share-place.js',
+    myPlace: './src/scripts/app/my-place',
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -58,6 +61,12 @@ module.exports = {
       title: 'Share My Place',
       filename: 'index.html',
       template: './src/index.html',
+      chunks: ['sharePlace'],
+    }),
+    new HTMLWebpackPlugin({
+      filename: 'my-place/index.html',
+      template: './src/my-place.html',
+      chunks: ['myPlace'],
     }),
     new ESLintWebpackPlugin(),
   ],

@@ -5,6 +5,7 @@ import Location, {
 import Modal from '../UI/modal';
 import Map from '../UI/map';
 
+import '../../styles/app.css';
 import '../../styles/share-place.css';
 
 export class PlaceFinder {
@@ -113,3 +114,5 @@ export class PlaceFinder {
     }`;
   }
 }
+
+new PlaceFinder();
