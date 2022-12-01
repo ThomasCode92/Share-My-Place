@@ -5,7 +5,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 const CleanPlugin = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 
 const { DefinePlugin } = webpack;
@@ -18,15 +20,28 @@ module.exports = {
     myPlace: './src/scripts/app/my-place',
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'source-map',
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+  },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.m?js$/,
@@ -57,6 +72,9 @@ module.exports = {
       filename: 'my-place/index.html',
       template: './src/my-place.html',
       chunks: ['myPlace'],
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
     }),
     new ESLintWebpackPlugin(),
   ],
