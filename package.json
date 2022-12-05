@@ -4,8 +4,9 @@
   "description": "Find your location and share it with the world!",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.prod.js",
+    "lint": "eslint --ext .js src",
     "test": "jest",
+    "build": "webpack --config webpack.config.prod.js",
     "serve": "webpack-dev-server"
   },
   "keywords": [],
