@@ -46,8 +46,6 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Get build artifacts
         uses: actions/download-artifact@v3
@@ -57,7 +55,18 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: dist
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd dist
+          git init
+          git add --all
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: ad-m/github-push-action@master
         with:
-          folder: dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          force: true
+          directory: dist
