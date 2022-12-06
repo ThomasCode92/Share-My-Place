@@ -55,3 +55,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: dist
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
