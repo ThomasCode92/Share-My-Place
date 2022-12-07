@@ -1,0 +1,29 @@
+name: Push Files
+on: workflow_call
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: dist
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd dist
+          git init
+          git add --all
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
+      - name: Deploy
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          force: true
+          directory: dist
