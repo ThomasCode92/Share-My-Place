@@ -1,4 +1,25 @@
-import Location from '../../src/scripts/util/location';
+import Location, {
+  getCoordsFromAddress,
+} from '../../src/scripts/util/location';
+
+const testLocation = new Location(-10, -179);
+const testResponseData = {
+  results: [{ geometry: { location: testLocation } }],
+};
+
+globalThis.fetch = jest.fn(() => {
+  return new Promise(resolve => {
+    const testResponse = {
+      ok: true,
+      json() {
+        return new Promise(resolve => {
+          resolve(testResponseData);
+        });
+      },
+    };
+    resolve(testResponse);
+  });
+});
 
 describe('Location class', () => {
   it('should create an object with lat & lng properties', () => {
