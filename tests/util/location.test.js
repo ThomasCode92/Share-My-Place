@@ -50,3 +50,13 @@ describe('Location class', () => {
     expect(resultFn).toThrow(/[I-i]nvalid input/);
   });
 });
+
+describe('getCoordsFromAddress function', () => {
+  it('should return the location from the response data', async () => {
+    const testData = { key: 'test' };
+
+    const testResult = await getCoordsFromAddress(testData);
+
+    expect(testResult).toEqual(testLocation);
+  });
+});
