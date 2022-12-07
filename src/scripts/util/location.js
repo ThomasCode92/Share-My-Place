@@ -2,6 +2,9 @@ const GOOGLE_API_KEY = process.env.GOOGLE_MAPS_PLATFORM_API_KEY;
 
 export default class Location {
   constructor(latitude, longitude) {
+    if (Math.abs(latitude) > 90 || Math.abs(longitude) > 180)
+      throw Error('Invalid input value');
+
     this.lat = latitude;
     this.lng = longitude;
   }
