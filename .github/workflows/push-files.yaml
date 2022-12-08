@@ -1,13 +1,24 @@
 name: Push Files
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: The name of the artifact files to push.
+        required: true
+        type: string
+      branch-name:
+        description: The name of the branch to push the file to.
+        required: false
+        default: gh-pages
+        type: string
 jobs:
-  deploy:
+  push-files:
     runs-on: ubuntu-latest
     steps:
-      - name: Get build artifacts
+      - name: Get Code
         uses: actions/download-artifact@v3
         with:
-          name: dist-files
+          name: ${{ inputs.artifact-name }}
           path: dist
       - name: Display structure of downloaded files
         run: ls -R
@@ -24,6 +35,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
+          branch: ${{ inputs.branch-name }}
           force: true
           directory: dist
