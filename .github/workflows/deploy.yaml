@@ -60,6 +60,8 @@ jobs:
     uses: ./.github/workflows/push-files.yaml
     with:
       artifact-name: dist-files
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
   report:
     needs: [lint, deploy]
     if: failure()

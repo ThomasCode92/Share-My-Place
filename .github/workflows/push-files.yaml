@@ -3,14 +3,17 @@ on:
   workflow_call:
     inputs:
       artifact-name:
-        description: The name of the artifact files to push.
+        description: The name of the artifact files to push
         required: true
         type: string
       branch-name:
-        description: The name of the branch to push the file to.
+        description: The name of the branch to push the file to
         required: false
         default: gh-pages
         type: string
+    secrets:
+      token:
+        required: true
 jobs:
   push-files:
     runs-on: ubuntu-latest
@@ -34,7 +37,7 @@ jobs:
       - name: Deploy
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.token }}
           branch: ${{ inputs.branch-name }}
           force: true
           directory: dist
